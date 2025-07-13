@@ -1297,6 +1297,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 7858770785196301107, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
+      propertyPath: startTimer
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7858770785196301111, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
       propertyPath: m_RootOrder
       value: 6
