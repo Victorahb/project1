@@ -16,14 +16,21 @@ public class mover_1stL : MonoBehaviour
     // }
 
 
+    // Actions : 
+
+    // 1.Transform (Movement - vector up)  
+    // 2.Rotation and bug fix which hasn't been completely fixed  
+    // 3.Auiohandler for thrust
+
     [SerializeField] float thrustSpeed = 1000f ;
     [SerializeField] float rotateSpeed = 100f ;
-
     Rigidbody moverRB;
+    AudioSource thrustOgg;
 
     void Start()
     {
         moverRB = GetComponent<Rigidbody>();
+        thrustOgg = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -38,6 +45,16 @@ public class mover_1stL : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             moverRB.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
+
+            if (!thrustOgg.isPlaying)
+            {
+                thrustOgg.Play();
+            }
+        }
+        
+        else
+        {
+            thrustOgg.Stop();
         }
 
     }
