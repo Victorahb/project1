@@ -24,9 +24,13 @@ public class mover_1stL : MonoBehaviour
 
     [SerializeField] float thrustSpeed = 1000f ;
     [SerializeField] float rotateSpeed = 100f ;
-    [SerializeField] float startTimer = 0 ;
+    // [SerializeField] float startTimer = 0 ;
+
     Rigidbody moverRB;
     AudioSource thrustOgg;
+
+    [SerializeField] AudioClip mainEngine ;
+
     void Start()
     {
         moverRB = GetComponent<Rigidbody>();
@@ -48,15 +52,13 @@ public class mover_1stL : MonoBehaviour
 
             if (!thrustOgg.isPlaying)
             {
-                thrustOgg.Play();
+                thrustOgg.PlayOneShot(mainEngine);
             }
         }
-        
         else
         {
             thrustOgg.Stop();
         }
-
     }
 
     void proccessRotate()

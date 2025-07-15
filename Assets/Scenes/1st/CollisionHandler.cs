@@ -5,17 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float loadTiming = 2f;
+    [SerializeField] AudioClip success;
+    [SerializeField] AudioClip death;
+
+    bool flag;
+
+    AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         Debug.Log("You collided with : ");
 
         switch (other.gameObject.tag)
         {
-
-            case "Wall":
-                crashScene();
-                Debug.Log("WAll");
-                break;
 
             case "Start":
                 Debug.Log("START");
@@ -26,23 +34,37 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("FINISH");
                 break;
 
-            default:
+            case "Wall":
                 crashScene();
+                Debug.Log("WAll");
                 break;
-                
+
+            default:
+                successScene();
+                break;
+
         }
+
+        flag = false;
     }
 
+    void successScene()
+    {
+        audioSource.PlayOneShot(success);
+        GetComponent<mover_1stL>().enabled = false;
+        Invoke("loadNextLevel", loadTiming);
+    }
     void crashScene()
     {
+        audioSource.PlayOneShot(death);
         GetComponent<mover_1stL>().enabled = false;
-        Invoke("loadLevel", 1f);
+        Invoke("reloadLevel", loadTiming);
     }
 
     // this method writing is wrong they should be more seperate to be more flexible .
     //  now i cant put the scene num in there because of the invoke str thing
 
-    void loadLevel()
+    void loadNextLevel()
     {
         // if level is considered 0 then the scene reloads
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
@@ -53,9 +75,17 @@ public class CollisionHandler : MonoBehaviour
             currentSceneIndex = 0;
         }
 
+        Debug.Log("Loading next level ...");
         SceneManager.LoadScene(currentSceneIndex);
 
-        Debug.Log("SOMETHING");
+    }
+
+    void reloadLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        Debug.Log("Reloading");
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
 }
