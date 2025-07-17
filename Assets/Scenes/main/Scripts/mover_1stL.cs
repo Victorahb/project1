@@ -25,10 +25,10 @@ public class mover_1stL : MonoBehaviour
     [SerializeField] float thrustSpeed = 1000f ;
     [SerializeField] float rotateSpeed = 100f ;
     // [SerializeField] float startTimer = 0 ;
-
     Rigidbody moverRB;
     AudioSource thrustOgg;
-
+    bool isTransitioning = false;
+    
     [SerializeField] AudioClip mainEngine ;
 
     void Start()

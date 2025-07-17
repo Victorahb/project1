@@ -5,26 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
-    [SerializeField] float loadTiming = 2f;
+    [SerializeField] float winTiming = 2f;
+    [SerializeField] float deathTiming = 2f;
     [SerializeField] AudioClip success;
     [SerializeField] AudioClip death;
 
-    bool flag;
+    bool isTransitioning = false;
 
     AudioSource audioSource;
 
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
+    void Start() { audioSource = GetComponent<AudioSource>(); }
 
     private void OnCollisionEnter(Collision other)
     {
         Debug.Log("You collided with : ");
 
+        // if (isTransitioning == false)
+        if (isTransitioning) { return; }
+        
         switch (other.gameObject.tag)
-        {
 
+        {
             case "Start":
                 Debug.Log("START");
                 break;
@@ -42,23 +43,24 @@ public class CollisionHandler : MonoBehaviour
             default:
                 successScene();
                 break;
-
         }
-
-        flag = false;
     }
 
     void successScene()
     {
+        isTransitioning = true;
+        audioSource.Stop();
         audioSource.PlayOneShot(success);
         GetComponent<mover_1stL>().enabled = false;
-        Invoke("loadNextLevel", loadTiming);
+        Invoke("loadNextLevel", winTiming);
     }
     void crashScene()
     {
+        audioSource.Stop();
+        isTransitioning = true;
         audioSource.PlayOneShot(death);
         GetComponent<mover_1stL>().enabled = false;
-        Invoke("reloadLevel", loadTiming);
+        Invoke("reloadLevel", deathTiming);
     }
 
     // this method writing is wrong they should be more seperate to be more flexible .
@@ -70,10 +72,7 @@ public class CollisionHandler : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         // if maxsceneCountInBuildSettings equals the currentindex + 1 then the scene goes to zero (First scene)
-        if (currentSceneIndex == SceneManager.sceneCountInBuildSettings)
-        {
-            currentSceneIndex = 0;
-        }
+        if (currentSceneIndex == SceneManager.sceneCountInBuildSettings) { currentSceneIndex = 0; }
 
         Debug.Log("Loading next level ...");
         SceneManager.LoadScene(currentSceneIndex);
@@ -83,7 +82,6 @@ public class CollisionHandler : MonoBehaviour
     void reloadLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-
         Debug.Log("Reloading");
         SceneManager.LoadScene(currentSceneIndex);
     }

@@ -1293,18 +1293,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2009743511, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
-      propertyPath: m_audioClip
-      value: 
+    - target: {fileID: 3682523881430243561, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
+      propertyPath: winTiming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3682523881430243561, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
+      propertyPath: deathTiming
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7858770785196301106, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
-    - target: {fileID: 7858770785196301107, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
-      propertyPath: mainEngine
-      value: 
-      objectReference: {fileID: 8300000, guid: 51e56b3613cfbe04896b610cbafd9314, type: 3}
     - target: {fileID: 7858770785196301111, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
       propertyPath: m_RootOrder
       value: 6
