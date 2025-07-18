@@ -1293,14 +1293,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3682523881430243561, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
-      propertyPath: winTiming
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3682523881430243561, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
-      propertyPath: deathTiming
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7858770785196301106, guid: 8a6c85b0e92c0284194b12af9bf78948, type: 3}
       propertyPath: m_Name
       value: player

@@ -25,11 +25,11 @@ public class mover_1stL : MonoBehaviour
     [SerializeField] float thrustSpeed = 1000f ;
     [SerializeField] float rotateSpeed = 100f ;
     // [SerializeField] float startTimer = 0 ;
+    [SerializeField] AudioClip mainEngine ;
+    [SerializeField] ParticleSystem thrustParticle;
     Rigidbody moverRB;
     AudioSource thrustOgg;
-    bool isTransitioning = false;
-    
-    [SerializeField] AudioClip mainEngine ;
+
 
     void Start()
     {
@@ -48,6 +48,8 @@ public class mover_1stL : MonoBehaviour
         // Input.GetKey("Space");
         if (Input.GetKey(KeyCode.Space))
         {
+            thrustParticle.Play();
+            
             moverRB.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
 
             if (!thrustOgg.isPlaying)
@@ -57,8 +59,13 @@ public class mover_1stL : MonoBehaviour
         }
         else
         {
+            thrustParticle.Stop();
             thrustOgg.Stop();
         }
+    }
+    private void OnCollisionEnter()
+    {
+        thrustParticle.Stop();
     }
 
     void proccessRotate()

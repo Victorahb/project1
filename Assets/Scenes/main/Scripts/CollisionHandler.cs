@@ -9,6 +9,9 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] float deathTiming = 2f;
     [SerializeField] AudioClip success;
     [SerializeField] AudioClip death;
+    [SerializeField] ParticleSystem successParticle;
+    [SerializeField] ParticleSystem deathParticle;
+
 
     bool isTransitioning = false;
 
@@ -49,6 +52,7 @@ public class CollisionHandler : MonoBehaviour
     void successScene()
     {
         isTransitioning = true;
+        successParticle.Play();
         audioSource.Stop();
         audioSource.PlayOneShot(success);
         GetComponent<mover_1stL>().enabled = false;
@@ -56,8 +60,9 @@ public class CollisionHandler : MonoBehaviour
     }
     void crashScene()
     {
-        audioSource.Stop();
         isTransitioning = true;
+        deathParticle.Play();
+        audioSource.Stop();
         audioSource.PlayOneShot(death);
         GetComponent<mover_1stL>().enabled = false;
         Invoke("reloadLevel", deathTiming);
