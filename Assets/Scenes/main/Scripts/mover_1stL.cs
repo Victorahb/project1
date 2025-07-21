@@ -22,11 +22,14 @@ public class mover_1stL : MonoBehaviour
     // 2.Rotation and bug fix which hasn't been completely fixed  
     // 3.Auiohandler for thrust
 
-    [SerializeField] float thrustSpeed = 1000f ;
-    [SerializeField] float rotateSpeed = 100f ;
     // [SerializeField] float startTimer = 0 ;
-    [SerializeField] AudioClip mainEngine ;
-    [SerializeField] ParticleSystem thrustParticle;
+    [SerializeField] float thrustSpeed = 1000f;
+    [SerializeField] float rotateSpeed = 100f;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] ParticleSystem bodythrustParticle;
+    [SerializeField] ParticleSystem leftThrustParticle;
+    [SerializeField] ParticleSystem rightThrustParticle;
+
     Rigidbody moverRB;
     AudioSource thrustOgg;
 
@@ -42,30 +45,49 @@ public class mover_1stL : MonoBehaviour
         proccessThrust();
         proccessRotate();
     }
+    private void OnCollisionEnter()
+    {
+        bodythrustParticle.Stop();
+        leftThrustParticle.Stop();
+        rightThrustParticle.Stop();
+    }
+
+
 
     void proccessThrust()
     {
         // Input.GetKey("Space");
         if (Input.GetKey(KeyCode.Space))
         {
-            thrustParticle.Play();
-            
-            moverRB.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
-
-            if (!thrustOgg.isPlaying)
-            {
-                thrustOgg.PlayOneShot(mainEngine);
-            }
+            playing_thrust();
         }
+
         else
         {
-            thrustParticle.Stop();
-            thrustOgg.Stop();
+            stopping_thrust();
         }
     }
-    private void OnCollisionEnter()
+
+    void playing_thrust()
     {
-        thrustParticle.Stop();
+        moverRB.AddRelativeForce(Vector3.up * thrustSpeed * Time.deltaTime);
+        
+        if (!thrustOgg.isPlaying)
+        {
+            thrustOgg.PlayOneShot(mainEngine);
+        }
+        // IDK why i added this it was working fine before
+        // fix : i see its because it doesnt reset the animation for the particle
+        if (!bodythrustParticle.isPlaying)
+        {
+            bodythrustParticle.Play();
+        } 
+    }
+
+    void stopping_thrust()
+    {
+        bodythrustParticle.Stop();
+        thrustOgg.Stop();
     }
 
     void proccessRotate()
@@ -73,16 +95,45 @@ public class mover_1stL : MonoBehaviour
 
         if (Input.GetKey(KeyCode.D))
         {
-            rotation(rotateSpeed);
+            rotate_right();
         }
 
         else if (Input.GetKey(KeyCode.A))
         {
-            rotation(-rotateSpeed);
+            rotate_left();
+        }
+
+        else
+        {
+            stopping_rotate();
         }
     }
 
-    private void rotation(float rotationThisFrame)
+    void rotate_right()
+    {
+        rotation(rotateSpeed);
+        if (!leftThrustParticle.isPlaying)
+        {
+            leftThrustParticle.Play();
+        }     
+    }
+
+    void rotate_left()
+    {
+        rotation(-rotateSpeed);
+        if (!rightThrustParticle.isPlaying)
+        {
+            rightThrustParticle.Play();
+        }
+    }
+
+    void stopping_rotate()
+    {
+        leftThrustParticle.Stop();
+        rightThrustParticle.Stop();
+    }
+
+    void rotation(float rotationThisFrame)
     {
         moverRB.freezeRotation = true; // freezing rotation so we can manually rotate
         transform.Rotate(Vector3.forward * rotationThisFrame * Time.deltaTime);

@@ -11,36 +11,53 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] AudioClip death;
     [SerializeField] ParticleSystem successParticle;
     [SerializeField] ParticleSystem deathParticle;
-
-
+    [SerializeField] ParticleSystem fallDown;
+    [SerializeField] bool isCollisionDisabled = false;
     bool isTransitioning = false;
-
     AudioSource audioSource;
+    
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+    void Update()
+    {
+        cheat_keys();
+    }
 
-    void Start() { audioSource = GetComponent<AudioSource>(); }
+    void cheat_keys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            loadNextLevel();
+        }
 
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            isCollisionDisabled = !isCollisionDisabled;
+        }
+    }
     private void OnCollisionEnter(Collision other)
     {
+        // if (isTransitioning == false)
+        if (isTransitioning || isCollisionDisabled) { return; }
+
         Debug.Log("You collided with : ");
 
-        // if (isTransitioning == false)
-        if (isTransitioning) { return; }
-        
         switch (other.gameObject.tag)
-
         {
             case "Start":
                 Debug.Log("START");
                 break;
 
             case "Finish":
-                crashScene();
+                successScene();
                 Debug.Log("FINISH");
                 break;
 
             case "Wall":
                 crashScene();
-                Debug.Log("WAll");
+                Debug.Log("WALL");
                 break;
 
             default:
@@ -62,6 +79,7 @@ public class CollisionHandler : MonoBehaviour
     {
         isTransitioning = true;
         deathParticle.Play();
+        fallDown.Play();
         audioSource.Stop();
         audioSource.PlayOneShot(death);
         GetComponent<mover_1stL>().enabled = false;
