@@ -40,9 +40,9 @@ public class CollisionHandler : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // if (isTransitioning == false)
-        if (isTransitioning || isCollisionDisabled) { return; }
-
         Debug.Log("You collided with : ");
+        
+        if (isTransitioning || isCollisionDisabled) { return; }
 
         switch (other.gameObject.tag)
         {
