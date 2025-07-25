@@ -22,9 +22,9 @@ public class mover_1stL : MonoBehaviour
     // 2.Rotation and bug fix which hasn't been completely fixed  
     // 3.Auiohandler for thrust
 
-    // [SerializeField] float startTimer = 0 ;
     [SerializeField] float thrustSpeed = 1000f;
     [SerializeField] float rotateSpeed = 100f;
+    // [SerializeField] float startTimer = 0 ;
     [SerializeField] AudioClip mainEngine;
     [SerializeField] ParticleSystem bodythrustParticle;
     [SerializeField] ParticleSystem leftThrustParticle;
@@ -92,21 +92,11 @@ public class mover_1stL : MonoBehaviour
 
     void proccessRotate()
     {
+        if (Input.GetKey(KeyCode.D)) { rotate_right(); }
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            rotate_right();
-        }
+        else if (Input.GetKey(KeyCode.A)) { rotate_left(); }
 
-        else if (Input.GetKey(KeyCode.A))
-        {
-            rotate_left();
-        }
-
-        else
-        {
-            stopping_rotate();
-        }
+        else { stopping_rotate(); }
     }
 
     void rotate_right()
